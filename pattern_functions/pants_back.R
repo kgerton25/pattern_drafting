@@ -10,6 +10,7 @@
 #' @param inseam numeric; inseam length
 #' @param outseam numeric; outseam length
 #' @param leg_opening numeric; foot circumference around heel and top of pointed foot
+#' @param large_seat_adj numeric; adjustment amount to add room for a full butt
 #' @param movement_ease numeric; the amount of ease between the body measurement and the garment measurement
 #' @param sway_back_adj numeric; amount to adjust the pattern to account for a sway back. If you have a sway back, set this value to 0.25 - 0.75
 #'
@@ -23,6 +24,7 @@ pants_back <- function(crotch_length,
                         inseam,
                         outseam,
                         leg_opening,
+                        large_seat_adj= 0,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
