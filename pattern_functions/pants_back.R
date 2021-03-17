@@ -26,7 +26,11 @@ pants_back <- function(crotch_length,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
-  
+  # Determine Dart Width
+  dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
+                                 hip - waist >= 9 ~ 0.75,
+                                 hip - waist >= 7 ~ 0.5,
+                                 hip - waist < 7 ~ 0.25)
   # PANTS BACK
   
   A = c(0, 0)
@@ -154,11 +158,12 @@ pants_back <- function(crotch_length,
   outseam_curve_points$x <- outseam_curve[1] + outseam_curve[2]*outseam_curve_points$y + outseam_curve[3]*outseam_curve_points$y^2 + outseam_curve[4]*outseam_curve_points$y^3
   
   # Pattern Plot
-  
-  x_min <- floor(min(points$x)) - 1
-  x_max <- ceiling(max(points$x)) + 1
-  y_min <- floor(min(points$y)) - 1
-  y_max <- ceiling(max(points$y)) + 1
+  scale_points <-  points %>%
+    dplyr::filter(!(point %in% c("W1", "U1", "d1", 'd2', 'd3', 'd4', 'd1m', 'd2m')))
+  x_min <- floor(min(scale_points$x)) - 1
+  x_max <- ceiling(max(scale_points$x)) + 1
+  y_min <- floor(min(scale_points$y)) - 1
+  y_max <- ceiling(max(scale_points$y)) + 1
   
   pattern <- points %>%
     dplyr::filter(!(point %in% c("W1", "U1", "d1", 'd2', 'd3', 'd4', 'd1m', 'd2m'))) %>%

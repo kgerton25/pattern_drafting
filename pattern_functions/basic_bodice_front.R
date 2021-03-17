@@ -128,20 +128,6 @@ basic_bodice_front <- function(bust,
   AC3_curve_points <- data.frame(x = seq(U[1], L[1], length.out = 10))
   AC3_curve_points$y <- AC3_curve[1] + AC3_curve[2]*AC3_curve_points$x + AC3_curve[3]*AC3_curve_points$x^2
   
-  # ## Neck Curve 1
-  # NC1_points <- points %>%
-  #   dplyr::filter(point %in% c("J2", "B", "J"))
-  # NC1_curve <- solve(cbind(1, NC1_points$y, NC1_points$y^2), NC1_points$x)
-  # NC1_curve_points <- data.frame(y = seq(J[2], B[2], length.out = 10))
-  # NC1_curve_points$x <- NC1_curve[1] + NC1_curve[2]*NC1_curve_points$y + NC1_curve[3]*NC1_curve_points$y^2
-  # 
-  # ## Neck Curve 2
-  # NC2_points <- points %>%
-  #   dplyr::filter(point %in% c("J1", "G", "J"))
-  # NC2_curve <- solve(cbind(1, NC2_points$x, NC2_points$x^2), NC2_points$y)
-  # NC2_curve_points <- data.frame(x = seq(J[1], G[1], length.out = 10))
-  # NC2_curve_points$y <- NC2_curve[1] + NC2_curve[2]*NC2_curve_points$x + NC2_curve[3]*NC2_curve_points$x^2
-  
   # Neck Ellipse
   xc <- A[1] # center x_c or h
   yc <- A[2] # y_c or k
@@ -154,10 +140,12 @@ basic_bodice_front <- function(bust,
                             y = y)
   
   # PATTERN PLOT
-  x_min <- floor(min(points$x)) - 1
-  x_max <- ceiling(max(points$x)) + 1
-  y_min <- floor(min(points$y)) - 1
-  y_max <- ceiling(max(points$y)) + 1
+  scale_points <- points %>%
+    dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'N', 'L', 'U', 'R', 'F', 'X')) 
+  x_min <- floor(min(scale_points$x)) - 1
+  x_max <- ceiling(max(scale_points$x)) + 1
+  y_min <- floor(min(scale_points$y)) - 1
+  y_max <- ceiling(max(scale_points$y)) + 1
   
   pattern <- points %>%
     dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'N', 'L', 'U', 'R', 'F', 'X')) %>%

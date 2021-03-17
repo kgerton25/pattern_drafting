@@ -26,7 +26,11 @@ wide_leg_pants_back <- function(crotch_length,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
-  
+  # Determine Dart Width
+  dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
+                                 hip - waist >= 9 ~ 0.75,
+                                 hip - waist >= 7 ~ 0.5,
+                                 hip - waist < 7 ~ 0.25)
   # PANTS BACK
   
   A = c(0, 0)
@@ -130,11 +134,12 @@ wide_leg_pants_back <- function(crotch_length,
                        y = point_data[c(FALSE, TRUE)])
   
   # Pattern Plot
-  
-  x_min <- floor(min(points$x)) - 1
-  x_max <- ceiling(max(points$x)) + 1
-  y_min <- floor(min(points$y)) - 1
-  y_max <- ceiling(max(points$y)) + 1
+  scale_points <- points %>%
+    dplyr::filter(point %in% c('W', 'X', 'I', 'F1', 'R', 'S', 'T', 'U', 'knee', 'N', 'L', 'M')) 
+  x_min <- floor(min(scale_points$x)) - 1
+  x_max <- ceiling(max(scale_points$x)) + 1
+  y_min <- floor(min(scale_points$y)) - 1
+  y_max <- ceiling(max(scale_points$y)) + 1
   
   pattern <- points %>%
     dplyr::filter(point %in% c('W', 'X', 'I', 'F1', 'R', 'S', 'T', 'U', 'knee', 'N', 'L', 'M')) %>%

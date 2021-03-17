@@ -133,11 +133,12 @@ basic_bodice_back <- function(bust,
                             y = y)
   
   # PATTERN PLOT
-  
-  x_min <- floor(min(points$x)) - 1
-  x_max <- ceiling(max(points$x)) + 1
-  y_min <- floor(min(points$y)) - 1
-  y_max <- ceiling(max(points$y)) + 1
+  scale_points <- points %>%
+    dplyr::filter(point %in% c('B', 'I', 'G', 'L', 'M', 'J', 'K', 'S', 'Q', 'F'))
+  x_min <- floor(min(scale_points$x)) - 1
+  x_max <- ceiling(max(scale_points$x)) + 1
+  y_min <- floor(min(scale_points$y)) - 1
+  y_max <- ceiling(max(scale_points$y)) + 1
   
   pattern <- points %>%
     dplyr::filter(point %in% c('B', 'I', 'G', 'L', 'M', 'J', 'K', 'S', 'Q', 'F')) %>%
