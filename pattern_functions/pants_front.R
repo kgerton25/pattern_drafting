@@ -17,12 +17,12 @@
 #' @export
 #'
 #' @examples
-pants_front <- function(crotch_length = 11,
-                        waist = 33,
-                        hip = 47,
-                        inseam = 32,
-                        outseam = 43,
-                        leg_opening = 13.5,
+pants_front <- function(crotch_length,
+                        waist,
+                        hip,
+                        inseam,
+                        outseam,
+                        leg_opening,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
