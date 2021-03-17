@@ -26,6 +26,7 @@ wide_leg_pants_front <- function(crotch_length,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
+  
   # Determine Dart Width
   dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
                                  hip - waist >= 9 ~ 0.75,
@@ -102,14 +103,6 @@ wide_leg_pants_front <- function(crotch_length,
   hip_curve <- solve(cbind(1, hip_points$y, hip_points$y^2), hip_points$x)
   hip_curve_points <- data.frame(y = seq(Q[2], P[2], length.out = 10))
   hip_curve_points$x <- hip_curve[1] + hip_curve[2]*hip_curve_points$y + hip_curve[3]*hip_curve_points$y^2
-  
-  ## Inseam Curve
-  inseam_points <- points %>%
-    dplyr::filter(point %in% c("E", "p5", 'W1'))
-  inseam_curve <- solve(cbind(1, inseam_points$y, inseam_points$y^2), inseam_points$x)
-  inseam_curve_points <- data.frame(y = seq(E[2], p5[2], length.out = 10))
-  inseam_curve_points$x <- inseam_curve[1] + inseam_curve[2]*inseam_curve_points$y + inseam_curve[3]*inseam_curve_points$y^2
-  
   
   ## CROTCH CURVE 1
   
