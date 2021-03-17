@@ -8,7 +8,7 @@
 #' @param hip numeric; hip circumference
 #' @param hip_point numeric; vertical length between waist and hip
 #' @param skirt_length numeric; desired skirt length, from waist
-#' @param movement_ease numeric; 
+#' @param movement_ease numeric; the amount of ease between the body measurement and the garment measurement
 #' @param sway_back_adj numeric; amount to adjust the pattern to account for a sway back. If you have a sway back, set this value to 0.25 - 0.75
 #'
 #' @return list; a list containing the point set used to draft the pattern and the pattern object
