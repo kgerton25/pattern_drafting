@@ -35,6 +35,10 @@ sidebar <- bs4DashSidebar(
         menuItem(
             "Patterns",
             tabName = "patterns"
+        ),
+        menuItem(
+            "Gallery",
+            tabName = "gallery"
         )
     )
 )
