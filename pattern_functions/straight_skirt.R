@@ -149,6 +149,6 @@ straight_skirt <- function(waist,
     cowplot::theme_nothing()
   
   return(list("points" = points,
-              "pattern" = skirt_pattern))
+              "pattern" = pattern))
   
 }

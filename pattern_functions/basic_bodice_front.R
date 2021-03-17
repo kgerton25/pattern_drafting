@@ -1,7 +1,7 @@
-#' Foundation Top Front
+#' Basic Bodice Front
 #'
 #' @description 
-#' This function returns the major pattern points of a foundation top 
+#' This function returns the major pattern points of a basic bodice top 
 #' as well as the ggplot object of the pattern to print.
 #'
 #' @param bust numeric; bust circumference
@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @examples
-foundation_top_front <- function(bust,
+basic_bodice_front <- function(bust,
                                  shoulder_width,
                                  neck,
                                  first_line_front,
@@ -98,18 +98,13 @@ foundation_top_front <- function(bust,
   F1 = c(F[1], R[2] + (R[2] - F[2]))
   U1 = c(U[1], R[2] - (U[2] - R[2]))
   U2 = c(L[1] + (L[1] - U[1]), U[2])
-  
-  ## Waist Dart
-  Dw = c((waist/4) + 2, M[2])
-  Ew = c(X[1], M[2])
-  Fw = c(Ew[1] - 1, Ew[2])
-  Gw = c(Ew[1] + 1, Ew[2])
-  Hw = c(X[1], X[2] + 1.5)
-  
+  ## Neck
+  J1 = c(-J[1], J[2])
+  J2 = c(J[1], -J[2])
   
   # Assemble Data
-  point_data <- c(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, X, F1, U1, U2, Dw, Ew, Fw, Gw, Hw)
-  points <- data.frame(point = c(LETTERS[1:22], 'X', 'F1', 'U1', 'U2', 'Dw', 'Ew', 'Fw', 'Gw', 'Hw'),
+  point_data <- c(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, X, F1, U1, U2, J1, J2)
+  points <- data.frame(point = c(LETTERS[1:22], 'X', 'F1', 'U1', 'U2', 'J1', 'J2'),
                        x = point_data[c(TRUE, FALSE)],
                        y = point_data[c(FALSE, TRUE)])
   ## ARMPIT CURVE 1
@@ -133,6 +128,19 @@ foundation_top_front <- function(bust,
   AC3_curve_points <- data.frame(x = seq(U[1], L[1], length.out = 10))
   AC3_curve_points$y <- AC3_curve[1] + AC3_curve[2]*AC3_curve_points$x + AC3_curve[3]*AC3_curve_points$x^2
   
+  # ## Neck Curve 1
+  # NC1_points <- points %>%
+  #   dplyr::filter(point %in% c("J2", "B", "J"))
+  # NC1_curve <- solve(cbind(1, NC1_points$y, NC1_points$y^2), NC1_points$x)
+  # NC1_curve_points <- data.frame(y = seq(J[2], B[2], length.out = 10))
+  # NC1_curve_points$x <- NC1_curve[1] + NC1_curve[2]*NC1_curve_points$y + NC1_curve[3]*NC1_curve_points$y^2
+  # 
+  # ## Neck Curve 2
+  # NC2_points <- points %>%
+  #   dplyr::filter(point %in% c("J1", "G", "J"))
+  # NC2_curve <- solve(cbind(1, NC2_points$x, NC2_points$x^2), NC2_points$y)
+  # NC2_curve_points <- data.frame(x = seq(J[1], G[1], length.out = 10))
+  # NC2_curve_points$y <- NC2_curve[1] + NC2_curve[2]*NC2_curve_points$x + NC2_curve[3]*NC2_curve_points$x^2
   
   # Neck Ellipse
   xc <- A[1] # center x_c or h
@@ -146,14 +154,13 @@ foundation_top_front <- function(bust,
                             y = y)
   
   # PATTERN PLOT
-  
   x_min <- floor(min(points$x)) - 1
   x_max <- ceiling(max(points$x)) + 1
   y_min <- floor(min(points$y)) - 1
   y_max <- ceiling(max(points$y)) + 1
   
   pattern <- points %>%
-    dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'L', 'U', 'R', 'F', 'X', 'Dw')) %>%
+    dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'N', 'L', 'U', 'R', 'F', 'X')) %>%
     ggplot(aes(x = x, y = y)) +
     geom_point() +
     xlim(x_min, x_max) +
@@ -183,10 +190,9 @@ foundation_top_front <- function(bust,
               size = 0.1) +
     geom_segment(aes(x = G[1], y = G[2], xend = M[1], yend = M[2])) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) +
-    geom_segment(aes(x = M[1], y = M[2], xend = Dw[1], yend = Dw[2])) +
-    geom_segment(aes(x = Dw[1], y = Dw[2], xend = L[1], yend = L[2])) + 
-    geom_segment(aes(x = Fw[1], y = Fw[2], xend = Hw[1], yend = Hw[2])) + 
-    geom_segment(aes(x = Gw[1], y = Gw[2], xend = Hw[1], yend = Hw[2])) + 
+    geom_segment(aes(x = M[1], y = M[2], xend = N[1], yend = N[2])) +
+    geom_segment(aes(x = N[1], y = N[2], xend = L[1], yend = L[2]))
+  + 
     cowplot::theme_nothing()
   
   
