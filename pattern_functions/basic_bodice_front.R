@@ -31,6 +31,14 @@ basic_bodice_front <- function(bust,
                                  shoulder_type = "normal",
                                  large_bust_adj = FALSE,
                                  movement_ease = 0.5) {
+  
+  shoulder_type_adj <- if (shoulder_type == "normal") {
+    1
+  } else if (shoulder_type == "sloped") {
+    1.25
+  } else {
+    0.75
+  }
   # Points
   A = c(0, 0)
   B = c(ifelse(large_bust_adj == TRUE, (neck/6) + 0.25, (bust/12) - 0.25), 0)
@@ -179,8 +187,7 @@ basic_bodice_front <- function(bust,
     geom_segment(aes(x = G[1], y = G[2], xend = M[1], yend = M[2])) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) +
     geom_segment(aes(x = M[1], y = M[2], xend = N[1], yend = N[2])) +
-    geom_segment(aes(x = N[1], y = N[2], xend = L[1], yend = L[2]))
-  + 
+    geom_segment(aes(x = N[1], y = N[2], xend = L[1], yend = L[2])) + 
     cowplot::theme_nothing()
   
   
