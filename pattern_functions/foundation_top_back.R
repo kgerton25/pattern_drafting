@@ -27,6 +27,11 @@ foundation_top_back <- function(bust,
                                  large_bust_adj = FALSE,
                                  movement_ease = 0.5) {
   
+  # Set Shoulder Adjustment
+  shoulder_type_adj <- dplyr::case_when(shoulder_type == "normal" ~ 1,
+                                        shoulder_type == "sloped" ~ 1.25,
+                                        shoulder_type == "flat" ~ 0.75)
+
   # Points
   A = c(0, 0)
   B = c(ifelse(large_bust_adj == TRUE, (neck/6) + 0.25, (bust/12) - 0.25), 0)

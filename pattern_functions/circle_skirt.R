@@ -52,7 +52,7 @@ circle_skirt <- function(waist,
              inherit.aes = FALSE,
              n = 90) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) + 
-    geom_segment(aes(x = C[1], y = C[2], xend = G[1], yend = G[2]))  + 
+    geom_segment(aes(x = C[1], y = C[2], xend = G[1], yend = G[2])) + 
     cowplot::theme_nothing()
   
   

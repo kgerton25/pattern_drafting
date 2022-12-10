@@ -28,6 +28,7 @@ pants_back <- function(crotch_length,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
+  
   # Determine Dart Width
   dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
                                  hip - waist >= 9 ~ 0.75,
