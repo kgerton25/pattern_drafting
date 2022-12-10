@@ -28,7 +28,7 @@ wide_leg_pants_front <- function(crotch_length,
                         sway_back_adj = 0) {
   
   # Determine Dart Width
-  dart_width <- dart_width(waist, hip)
+  dart_width <- calc_dart_width(waist, hip)
   
   # PANTS FRONT
   

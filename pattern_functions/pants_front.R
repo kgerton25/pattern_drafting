@@ -26,8 +26,9 @@ pants_front <- function(crotch_length,
                         movement_ease = 0.25,
                         leg_slimming_amt = 0.25,
                         sway_back_adj = 0) {
+  
   # Determine Dart Width
-  dart_width <- dart_width(waist, hip)
+  dart_width <- calc_dart_width(waist, hip)
   
   # PANTS FRONT
   

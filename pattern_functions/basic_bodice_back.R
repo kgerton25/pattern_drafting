@@ -29,9 +29,7 @@ basic_bodice_back <- function(bust,
 
   
   # Set Shoulder Adjustment
-  shoulder_type_adj <- dplyr::case_when(shoulder_type == "normal" ~ 1,
-                                        shoulder_type == "sloped" ~ 1.25,
-                                        shoulder_type == "flat" ~ 0.75)
+  shoulder_type_adj <- calc_shoulder_type_adj(shoulder_type)
   
   # Points
   A = c(0, 0)
