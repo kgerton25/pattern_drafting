@@ -23,10 +23,7 @@ straight_skirt <- function(waist,
                            sway_back_adj = 0) {
   
   # Determine Dart Width
-  dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
-                                 hip - waist >= 9 ~ 0.75,
-                                 hip - waist >= 7 ~ 0.5,
-                                 hip - waist < 7 ~ 0.25)
+  dart_width <- dart_width(waist, hip)
   
   # Create Major Pattern Points
   ## Skirt Body
