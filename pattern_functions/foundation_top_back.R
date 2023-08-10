@@ -132,10 +132,10 @@ foundation_top_back <- function(bust,
   scale_points <- points %>%
     dplyr::filter(point %in% c('B', 'I', 'G', 'L', 'Dw', 'J', 'K', 'S', 'Q', 'F'))  
   
-  x_min <- floor(min(scale_points$x)) - 1
-  x_max <- ceiling(max(scale_points$x)) + 1
-  y_min <- floor(min(scale_points$y)) - 1
-  y_max <- ceiling(max(scale_points$y)) + 1
+  x_min <- floor(min(scale_points$x)) - 5
+  x_max <- ceiling(max(scale_points$x)) + 5
+  y_min <- floor(min(scale_points$y)) - 5
+  y_max <- ceiling(max(scale_points$y)) + 5
   
   patterrn <- points %>%
     dplyr::filter(point %in% c('B', 'I', 'G', 'L', 'Dw', 'J', 'K', 'S', 'Q', 'F')) %>%
@@ -172,7 +172,18 @@ foundation_top_back <- function(bust,
     geom_segment(aes(x = Dw[1], y = Dw[2], xend = L[1], yend = L[2])) +
     geom_segment(aes(x = K[1], y = K[2], xend = Dw[1], yend = Dw[2]))+ 
     geom_segment(aes(x = Fw[1], y = Fw[2], xend = Hw[1], yend = Hw[2])) + 
-    geom_segment(aes(x = Ew[1], y = Ew[2], xend = Hw[1], yend = Hw[2])) + 
+    geom_segment(aes(x = Ew[1], y = Ew[2], xend = Hw[1], yend = Hw[2])) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   
