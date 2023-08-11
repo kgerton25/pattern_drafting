@@ -18,15 +18,15 @@
 #'
 #' @examples
 basic_bodice_back <- function(bust,
-                                 shoulder_width,
-                                 neck,
-                                 first_line_back,
-                                 back_length,
-                                 waist,
-                                 shoulder_type = "normal",
-                                 large_bust_adj = FALSE,
-                                 movement_ease = 0.5) {
-
+                              shoulder_width,
+                              neck,
+                              first_line_back,
+                              back_length,
+                              waist,
+                              shoulder_type = "normal",
+                              large_bust_adj = FALSE,
+                              movement_ease = 0.5) {
+  
   
   # Set Shoulder Adjustment
   shoulder_type_adj <- calc_shoulder_type_adj(shoulder_type)
@@ -150,6 +150,7 @@ basic_bodice_back <- function(bust,
     geom_point() +
     xlim(x_min, x_max) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     stat_smooth(data = AC1_curve_points, 
                 aes(x = x, y = y),

@@ -91,6 +91,7 @@ straight_skirt <- function(waist,
     geom_point() +
     xlim(x_max, x_min) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     # geom_text(aes(label = point)) +
     # Back Waist
     geom_segment(aes(x = T[1], y = T[2], xend = S[1], yend = S[2])) +

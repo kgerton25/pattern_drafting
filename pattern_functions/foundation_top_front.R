@@ -164,6 +164,7 @@ foundation_top_front <- function(bust,
     geom_point() +
     xlim(x_min, x_max) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     stat_smooth(data = AC1_curve_points, 
                 aes(x = x, y = y),

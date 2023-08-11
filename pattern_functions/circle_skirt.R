@@ -42,15 +42,16 @@ circle_skirt <- function(waist,
     ggplot(aes(x = x, y = y)) + 
     xlim(x_min, x_max) +
     ylim(y_max, y_min) +
+    coord_equal() + 
     geom_point() + 
     # geom_text(aes(label = point)) +
     ggforce::geom_arc(data = arcs,
-             mapping = aes(x0 = A[1], y0 = A[2],
-                           r = r, 
-                           start = start, 
-                           end = end),
-             inherit.aes = FALSE,
-             n = 90) +
+                      mapping = aes(x0 = A[1], y0 = A[2],
+                                    r = r, 
+                                    start = start, 
+                                    end = end),
+                      inherit.aes = FALSE,
+                      n = 90) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) + 
     geom_segment(aes(x = C[1], y = C[2], xend = G[1], yend = G[2])) +  
     # Calibration Grid

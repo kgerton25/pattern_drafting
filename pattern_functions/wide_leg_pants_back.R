@@ -19,15 +19,15 @@
 #'
 #' @examples
 wide_leg_pants_back <- function(crotch_length,
-                        waist,
-                        hip,
-                        inseam,
-                        outseam,
-                        leg_opening,
-                        large_seat_adj = 0,
-                        movement_ease = 0.25,
-                        leg_slimming_amt = 0.25,
-                        sway_back_adj = 0) {
+                                waist,
+                                hip,
+                                inseam,
+                                outseam,
+                                leg_opening,
+                                large_seat_adj = 0,
+                                movement_ease = 0.25,
+                                leg_slimming_amt = 0.25,
+                                sway_back_adj = 0) {
   
   # Determine Dart Width
   dart_width <- calc_dart_width(waist, hip)
@@ -148,6 +148,7 @@ wide_leg_pants_back <- function(crotch_length,
     geom_point() +
     xlim(x_max, x_min) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     geom_segment(aes(x = S[1], y = S[2], xend = T[1], yend = T[2])) +
     stat_smooth(data = hip_curve_points,
