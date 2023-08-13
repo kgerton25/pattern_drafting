@@ -10,7 +10,7 @@
 #'
 #' @examples
 calc_dart_width <- function(waist,
-                       hip) {
+                            hip) {
   # Determine Dart Width
   dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
                                  hip - waist >= 9 ~ 0.75,
@@ -39,7 +39,7 @@ calc_shoulder_type_adj <- function(shoulder_type) {
 }
 
 
-#' Save to PDF
+#' Save to Projector File
 #'
 #' @param file_name character; the name and path of the file to save the pattern to
 #' @param pattern character; the pattern object returned by the pattern function
@@ -48,10 +48,10 @@ calc_shoulder_type_adj <- function(shoulder_type) {
 #' @export
 #'
 #' @examples
-save_to_pdf <- function(file_name, pattern) {
-  pdf(file = filename,   # The directory you want to save the file in
-      width = 10, # The width of the plot in inches
-      height = 10) # The height of the plot in inches
+save_to_projector_file <- function(file_name, pattern) {
+  pdf(file = file_name,   # The directory you want to save the file in
+      width = 12, # The width of the plot in inches
+      height = 12) # The height of the plot in inches
   
   # Step 2: Create the plot with R code
   pattern 
@@ -59,3 +59,46 @@ save_to_pdf <- function(file_name, pattern) {
   # Step 3: Run dev.off() to create the file!
   dev.off()
 }
+
+
+save_to_paginated_pdf <- function(){
+  width <- ceiling(max(points$x) - min(points$x) + 5)
+  height <- ceiling(max(points$y) - min(points$y) + 5)
+  paper_x <- 8.5 # 8 printing width
+  paper_y <- 11 # 10.5 printing width
+  splits_x <- ceiling(width/8)
+  splits_y <- ceiling(height/10.5)
+  
+  ggsave(file = paste0(file_name, ".tiff"), # this will need to be a tmp directory in the app
+         plot = pattern,
+         width = width,
+         height = height,
+         units = "in")
+  
+  pattern_image <- raster::raster(paste0(file_name, ".tiff"))
+
+  h        <- ceiling(ncol(pattern_image)/splits_x)
+  v        <- ceiling(nrow(pattern_image)/splits_y)
+  agg      <- aggregate(pattern_image,fact=c(h,v))
+  agg[]    <- 1:ncell(agg)
+  agg_poly <- rasterToPolygons(agg)
+  names(agg_poly) <- "polis"
+  r_list <- list()
+  for(i in 1:ncell(agg)){
+    e1          <- extent(agg_poly[agg_poly$polis==i,])
+    r_list[[i]] <- crop(pattern_image,e1)
+  }
+}
+
+raster_plot_pattern <- function(raster_plot_chunk){
+  plot(raster_plot_chunk, 
+       col = c("black", "white"), 
+       legend = FALSE,
+       xaxt="n", yaxt = "n" # axis ticks
+       )
+}
+
+pdf(paste0(file_name, "pages.pdf"), width=8, height=10.5)
+lapply(r_list, function(n) raster_plot_pattern(n))
+dev.off()
+
