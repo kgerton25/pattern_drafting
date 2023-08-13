@@ -37,3 +37,25 @@ calc_shoulder_type_adj <- function(shoulder_type) {
                                         shoulder_type == "flat" ~ 0.75)
   return(shoulder_type_adj)
 }
+
+
+#' Save to PDF
+#'
+#' @param file_name character; the name and path of the file to save the pattern to
+#' @param pattern character; the pattern object returned by the pattern function
+#'
+#' @return
+#' @export
+#'
+#' @examples
+save_to_pdf <- function(file_name, pattern) {
+  pdf(file = filename,   # The directory you want to save the file in
+      width = 10, # The width of the plot in inches
+      height = 10) # The height of the plot in inches
+  
+  # Step 2: Create the plot with R code
+  pattern 
+  
+  # Step 3: Run dev.off() to create the file!
+  dev.off()
+}

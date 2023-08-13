@@ -5,7 +5,7 @@
 #' as well as the ggplot object of the pattern to print.
 #'
 #' @param bust numeric; bust circumference
-#' @param shoulder_width  numeric; length between shouldersm across the back
+#' @param shoulder_width  numeric; length between shoulders across the back
 #' @param neck numeric; neck circumference
 #' @param first_line_front numeric; width of front chest from armpit to armpit
 #' @param bp_to_bp numeric; length between bust points
