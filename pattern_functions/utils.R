@@ -116,11 +116,12 @@ raster_plot_pattern <- function(raster_plot_chunk){
        col = c("black", "white"), 
        legend = FALSE,
        xaxt="n", yaxt = "n", # axis ticks
-       par(mar = c(0, 0, 0, 0)) #par(mar = c(bottom, left, top, right)) #plot margins
+       par(mar = c(0, 0, 0, 0)),  #par(mar = c(bottom, left, top, right)) #plot margins
+       legend.mar =  0
        )
 }
 
-pdf(paste0(file_name, "pages.pdf"), 
+pdf(paste0(file_name, "pages.pdf"),
     width = render_x,
     height = render_y)
 lapply(r_list, function(n) raster_plot_pattern(n))
