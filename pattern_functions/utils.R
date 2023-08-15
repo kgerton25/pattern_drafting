@@ -54,16 +54,33 @@ save_to_projector_file <- function(file_name, pattern) {
       height = 12) # The height of the plot in inches
   
   # Step 2: Create the plot with R code
-  pattern 
+  pattern$pattern 
   
   # Step 3: Run dev.off() to create the file!
   dev.off()
 }
 
 
-save_to_paginated_pdf <- function(){
-  width <- ceiling(max(points$x) - min(points$x) + 5)
-  height <- ceiling(max(points$y) - min(points$y) + 5)
+#' Save to Paginated PDF
+#'
+#' @param pattern 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+save_to_paginated_pdf <- function(file_name, pattern){
+  points <- pattern$points
+  
+  x_min <- floor(min(points$x)) - 5
+  x_max <- ceiling(max(points$x)) + 5
+  y_min <- floor(min(points$y)) - 5
+  y_max <- ceiling(max(points$y)) + 5
+  
+  # width <- max(points$x) - min(points$x)
+  # height <- max(points$y) - min(points$y)
+  width = x_max - x_min
+  height = y_max - y_min
   paper_x <- 8.5 # 8 printing width
   paper_y <- 11 # 10.5 printing width
   splits_x <- ceiling(width/8)
@@ -88,17 +105,24 @@ save_to_paginated_pdf <- function(){
     e1          <- extent(agg_poly[agg_poly$polis==i,])
     r_list[[i]] <- crop(pattern_image,e1)
   }
+  
+  render_x <- round(width/splits_x, 4)
+  render_y <- round(height/splits_y, 4)
+  
 }
 
 raster_plot_pattern <- function(raster_plot_chunk){
   plot(raster_plot_chunk, 
        col = c("black", "white"), 
        legend = FALSE,
-       xaxt="n", yaxt = "n" # axis ticks
+       xaxt="n", yaxt = "n", # axis ticks
+       par(mar = c(0, 0, 0, 0)) #par(mar = c(bottom, left, top, right)) #plot margins
        )
 }
 
-pdf(paste0(file_name, "pages.pdf"), width=8, height=10.5)
+pdf(paste0(file_name, "pages.pdf"), 
+    width = render_x,
+    height = render_y)
 lapply(r_list, function(n) raster_plot_pattern(n))
 dev.off()
 
