@@ -19,20 +19,19 @@
 #'
 #' @examples
 wide_leg_pants_back <- function(crotch_length,
-                        waist,
-                        hip,
-                        inseam,
-                        outseam,
-                        leg_opening,
-                        large_seat_adj = 0,
-                        movement_ease = 0.25,
-                        leg_slimming_amt = 0.25,
-                        sway_back_adj = 0) {
+                                waist,
+                                hip,
+                                inseam,
+                                outseam,
+                                leg_opening,
+                                large_seat_adj = 0,
+                                movement_ease = 0.25,
+                                leg_slimming_amt = 0.25,
+                                sway_back_adj = 0) {
+  
   # Determine Dart Width
-  dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
-                                 hip - waist >= 9 ~ 0.75,
-                                 hip - waist >= 7 ~ 0.5,
-                                 hip - waist < 7 ~ 0.25)
+  dart_width <- calc_dart_width(waist, hip)
+  
   # PANTS BACK
   
   A = c(0, 0)
@@ -138,10 +137,10 @@ wide_leg_pants_back <- function(crotch_length,
   # Pattern Plot
   scale_points <- points %>%
     dplyr::filter(point %in% c('W', 'X', 'I', 'F1', 'R', 'S', 'T', 'U', 'knee', 'N', 'L', 'M')) 
-  x_min <- floor(min(scale_points$x)) - 1
-  x_max <- ceiling(max(scale_points$x)) + 1
-  y_min <- floor(min(scale_points$y)) - 1
-  y_max <- ceiling(max(scale_points$y)) + 1
+  x_min <- floor(min(scale_points$x)) - 5
+  x_max <- ceiling(max(scale_points$x)) + 5
+  y_min <- floor(min(scale_points$y)) - 5
+  y_max <- ceiling(max(scale_points$y)) + 5
   
   pattern <- points %>%
     dplyr::filter(point %in% c('W', 'X', 'I', 'F1', 'R', 'S', 'T', 'U', 'knee', 'N', 'L', 'M')) %>%
@@ -149,6 +148,7 @@ wide_leg_pants_back <- function(crotch_length,
     geom_point() +
     xlim(x_max, x_min) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     geom_segment(aes(x = S[1], y = S[2], xend = T[1], yend = T[2])) +
     stat_smooth(data = hip_curve_points,
@@ -169,7 +169,18 @@ wide_leg_pants_back <- function(crotch_length,
     geom_segment(aes(x = d1[1], y = d1[2], xend = d1m[1], yend = d1m[2])) +
     geom_segment(aes(x = d2[1], y = d2[2], xend = d1m[1], yend = d1m[2])) +
     geom_segment(aes(x = d3[1], y = d3[2], xend = d2m[1], yend = d2m[2])) +
-    geom_segment(aes(x = d4[1], y = d4[2], xend = d2m[1], yend = d2m[2])) + 
+    geom_segment(aes(x = d4[1], y = d4[2], xend = d2m[1], yend = d2m[2])) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   return(list("points" = points,

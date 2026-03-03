@@ -23,10 +23,7 @@ straight_skirt <- function(waist,
                            sway_back_adj = 0) {
   
   # Determine Dart Width
-  dart_width <- dplyr::case_when(hip - waist >= 11 ~ 1,
-                                 hip - waist >= 9 ~ 0.75,
-                                 hip - waist >= 7 ~ 0.5,
-                                 hip - waist < 7 ~ 0.25)
+  dart_width <- calc_dart_width(waist, hip)
   
   # Create Major Pattern Points
   ## Skirt Body
@@ -84,16 +81,17 @@ straight_skirt <- function(waist,
   hip_front_curve_points$x <- hip_front_curve[1] + hip_front_curve[2]*hip_front_curve_points$y + hip_front_curve[3]*hip_front_curve_points$y^2
   
   # Plot Pattern
-  x_min <- floor(min(points$x)) - 1
-  x_max <- ceiling(max(points$x)) + 1
-  y_min <- floor(min(points$y)) - 1
-  y_max <- ceiling(max(points$y)) + 1
+  x_min <- floor(min(points$x)) - 5
+  x_max <- ceiling(max(points$x)) + 5
+  y_min <- floor(min(points$y)) - 5
+  y_max <- ceiling(max(points$y)) + 5
   
   pattern <- points %>%
     ggplot(aes(x = x, y = y)) +
     geom_point() +
     xlim(x_max, x_min) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     # geom_text(aes(label = point)) +
     # Back Waist
     geom_segment(aes(x = T[1], y = T[2], xend = S[1], yend = S[2])) +
@@ -145,7 +143,18 @@ straight_skirt <- function(waist,
     geom_segment(aes(x = D[1], y = D[2], xend = S[1], yend = S[2])) + 
     # Kick Pleat
     geom_rect(aes(xmin = D[1], xmax = U[1], ymin = V[2], ymax = D[2]),
-              alpha = 0.25) + 
+              alpha = 0.25) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   return(list("points" = points,

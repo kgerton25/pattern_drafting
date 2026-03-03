@@ -5,7 +5,7 @@
 #' as well as the ggplot object of the pattern to print.
 #'
 #' @param bust numeric; bust circumference
-#' @param shoulder_width  numeric; length between shouldersm across the back
+#' @param shoulder_width  numeric; length between shoulders across the back
 #' @param neck numeric; neck circumference
 #' @param first_line_front numeric; width of front chest from armpit to armpit
 #' @param bp_to_bp numeric; length between bust points
@@ -21,16 +21,21 @@
 #'
 #' @examples
 basic_bodice_front <- function(bust,
-                                 shoulder_width,
-                                 neck,
-                                 first_line_front,
-                                 bp_to_bp,
-                                 shoulder_to_bp,
-                                 shoulder_to_waist,
-                                 waist,
-                                 shoulder_type = "normal",
-                                 large_bust_adj = FALSE,
-                                 movement_ease = 0.5) {
+                               shoulder_width,
+                               neck,
+                               first_line_front,
+                               bp_to_bp,
+                               shoulder_to_bp,
+                               shoulder_to_waist,
+                               waist,
+                               shoulder_type = "normal",
+                               large_bust_adj = FALSE,
+                               movement_ease = 0.5) {
+  
+  
+  # Set Shoulder Adjustment
+  shoulder_type_adj <- calc_shoulder_type_adj(shoulder_type)
+  
   # Points
   A = c(0, 0)
   B = c(ifelse(large_bust_adj == TRUE, (neck/6) + 0.25, (bust/12) - 0.25), 0)
@@ -142,10 +147,10 @@ basic_bodice_front <- function(bust,
   # PATTERN PLOT
   scale_points <- points %>%
     dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'N', 'L', 'U', 'R', 'F', 'X')) 
-  x_min <- floor(min(scale_points$x)) - 1
-  x_max <- ceiling(max(scale_points$x)) + 1
-  y_min <- floor(min(scale_points$y)) - 1
-  y_max <- ceiling(max(scale_points$y)) + 1
+  x_min <- floor(min(scale_points$x)) - 5
+  x_max <- ceiling(max(scale_points$x)) + 5
+  y_min <- floor(min(scale_points$y)) - 5
+  y_max <- ceiling(max(scale_points$y)) + 5
   
   pattern <- points %>%
     dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'N', 'L', 'U', 'R', 'F', 'X')) %>%
@@ -153,6 +158,7 @@ basic_bodice_front <- function(bust,
     geom_point() +
     xlim(x_min, x_max) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     stat_smooth(data = AC1_curve_points, 
                 aes(x = x, y = y),
@@ -179,8 +185,18 @@ basic_bodice_front <- function(bust,
     geom_segment(aes(x = G[1], y = G[2], xend = M[1], yend = M[2])) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) +
     geom_segment(aes(x = M[1], y = M[2], xend = N[1], yend = N[2])) +
-    geom_segment(aes(x = N[1], y = N[2], xend = L[1], yend = L[2]))
-  + 
+    geom_segment(aes(x = N[1], y = N[2], xend = L[1], yend = L[2])) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   

@@ -27,10 +27,10 @@ circle_skirt <- function(waist,
                        x = point_data[c(TRUE, FALSE)],
                        y = point_data[c(FALSE, TRUE)])
   # Pattern Plot
-  x_min <- floor(min(points$x)) - 3
-  x_max <- ceiling(max(points$x)) + 3
-  y_min <- floor(min(points$y)) - 3
-  y_max <- ceiling(max(points$y)) + 3
+  x_min <- floor(min(points$x)) - 5
+  x_max <- ceiling(max(points$x)) + 5
+  y_min <- floor(min(points$y)) - 5
+  y_max <- ceiling(max(points$y)) + 5
   
   arcs <- data.frame(
     start = -3*pi/2,
@@ -42,17 +42,29 @@ circle_skirt <- function(waist,
     ggplot(aes(x = x, y = y)) + 
     xlim(x_min, x_max) +
     ylim(y_max, y_min) +
+    coord_equal() + 
     geom_point() + 
     # geom_text(aes(label = point)) +
     ggforce::geom_arc(data = arcs,
-             mapping = aes(x0 = A[1], y0 = A[2],
-                           r = r, 
-                           start = start, 
-                           end = end),
-             inherit.aes = FALSE,
-             n = 90) +
+                      mapping = aes(x0 = A[1], y0 = A[2],
+                                    r = r, 
+                                    start = start, 
+                                    end = end),
+                      inherit.aes = FALSE,
+                      n = 90) +
     geom_segment(aes(x = B[1], y = B[2], xend = F[1], yend = F[2])) + 
-    geom_segment(aes(x = C[1], y = C[2], xend = G[1], yend = G[2]))  + 
+    geom_segment(aes(x = C[1], y = C[2], xend = G[1], yend = G[2])) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   

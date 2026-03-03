@@ -31,6 +31,10 @@ foundation_top_front <- function(bust,
                                  shoulder_type = "normal",
                                  large_bust_adj = FALSE,
                                  movement_ease = 0.5) {
+  
+  # Set Shoulder Adjustment
+  shoulder_type_adj <- calc_shoulder_type_adj(shoulder_type)
+  
   # Points
   A = c(0, 0)
   B = c(ifelse(large_bust_adj == TRUE, (neck/6) + 0.25, (bust/12) - 0.25), 0)
@@ -149,10 +153,10 @@ foundation_top_front <- function(bust,
   scale_points <- points %>%
     dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'L', 'U', 'R', 'F', 'X', 'Dw')) 
   
-  x_min <- floor(min(scale_points$x)) - 1
-  x_max <- ceiling(max(scale_points$x)) + 1
-  y_min <- floor(min(scale_points$y)) - 1
-  y_max <- ceiling(max(scale_points$y)) + 1
+  x_min <- floor(min(scale_points$x)) - 5
+  x_max <- ceiling(max(scale_points$x)) + 5
+  y_min <- floor(min(scale_points$y)) - 5
+  y_max <- ceiling(max(scale_points$y)) + 5
   
   pattern <- points %>%
     dplyr::filter(point %in% c('B', 'G', 'K', 'M', 'L', 'U', 'R', 'F', 'X', 'Dw')) %>%
@@ -160,6 +164,7 @@ foundation_top_front <- function(bust,
     geom_point() +
     xlim(x_min, x_max) +
     ylim(y_max, y_min) + 
+    coord_equal() + 
     geom_text(aes(label = point)) +
     stat_smooth(data = AC1_curve_points, 
                 aes(x = x, y = y),
@@ -188,7 +193,18 @@ foundation_top_front <- function(bust,
     geom_segment(aes(x = M[1], y = M[2], xend = Dw[1], yend = Dw[2])) +
     geom_segment(aes(x = Dw[1], y = Dw[2], xend = L[1], yend = L[2])) + 
     geom_segment(aes(x = Fw[1], y = Fw[2], xend = Hw[1], yend = Hw[2])) + 
-    geom_segment(aes(x = Gw[1], y = Gw[2], xend = Hw[1], yend = Hw[2])) + 
+    geom_segment(aes(x = Gw[1], y = Gw[2], xend = Hw[1], yend = Hw[2])) +  
+    # Calibration Grid
+    geom_segment(aes(x = -4, y = 0, xend = 0, yend = 0)) + 
+    geom_segment(aes(x = -4, y = -1, xend = 0, yend = -1)) +
+    geom_segment(aes(x = -4, y = -2, xend = 0, yend = -2)) +
+    geom_segment(aes(x = -4, y = -3, xend = 0, yend = -3)) +
+    geom_segment(aes(x = -4, y = -4, xend = 0, yend = -4)) +
+    geom_segment(aes(y = -4, x = 0, yend = 0, xend = 0)) + 
+    geom_segment(aes(y = -4, x = -1, yend = 0, xend = -1)) +
+    geom_segment(aes(y = -4, x = -2, yend = 0, xend = -2)) +
+    geom_segment(aes(y = -4, x = -3, yend = 0, xend = -3)) +
+    geom_segment(aes(y = -4, x = -4, yend = 0, xend = -4)) +
     cowplot::theme_nothing()
   
   
